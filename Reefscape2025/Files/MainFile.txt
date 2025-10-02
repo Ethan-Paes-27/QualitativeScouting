@@ -1,0 +1,3 @@
+1234:22,9,[L3, Barge, Deep]
+3101:5,2,[L2, AlgaeRemove, BadDef]
+5678:20,15,[L2, AlgaeRemove, BadDef]
