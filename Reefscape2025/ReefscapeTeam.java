@@ -1,26 +1,43 @@
 package Reefscape2025;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReefscapeTeam {
     private int teamNumber;
     private String teamName;
 
+    private ArrayList<ReefscapeScoringTypesAuto> scoringTypesAuto;
     private ArrayList<ReefscapeScoringTypes> scoringTypes;
     private int qualitativeScore;
     private int gamesPlayed;
 
-    public ReefscapeTeam(int teamNumber, ArrayList<ReefscapeScoringTypes> scoringTypes, int qualitativeScore, int gamesPlayed) {
+    public ReefscapeTeam(int teamNumber,  ArrayList<ReefscapeScoringTypesAuto> scoringTypesAuto, ArrayList<ReefscapeScoringTypes> scoringTypes, int qualitativeScore, int gamesPlayed) {
         this.teamNumber = teamNumber;
-        this.scoringTypes = scoringTypes;
+        this.scoringTypesAuto = new ArrayList<>(scoringTypesAuto);
+        this.scoringTypes = new ArrayList<>(scoringTypes);
         this.qualitativeScore = qualitativeScore;
         this.gamesPlayed = gamesPlayed;
     }
 
-    public void addTypes(ArrayList<ReefscapeScoringTypes> scoringTypes) {
-        this.scoringTypes.addAll(scoringTypes);
+    public void addTypesAuto(List<ReefscapeScoringTypesAuto> scoringTypesAuto) {
+    for (ReefscapeScoringTypesAuto type : scoringTypesAuto) {
+        if (!this.scoringTypesAuto.contains(type)) {
+            this.scoringTypesAuto.add(type);
+        }
     }
+    sortScoringTypesAuto();
+}
+
+public void addTypes(List<ReefscapeScoringTypes> scoringTypes) {
+    for (ReefscapeScoringTypes type : scoringTypes) {
+        if (!this.scoringTypes.contains(type)) {
+            this.scoringTypes.add(type);
+        }
+    }
+    sortScoringTypes();
+}
     
     public void addQualitativeScore(int score) {
         this.qualitativeScore += score;
@@ -34,6 +51,10 @@ public class ReefscapeTeam {
     public ArrayList<ReefscapeScoringTypes> getTypes() {
         return scoringTypes;
     }
+    
+    public ArrayList<ReefscapeScoringTypesAuto> getTypesAuto() {
+        return scoringTypesAuto;
+    }
 
     public int getQualitativeScore() {
         return qualitativeScore;
@@ -43,9 +64,13 @@ public class ReefscapeTeam {
         return gamesPlayed;
     }
 
-    public int getAverageQualitativeScore() {
+    public double getAverageQualitativeScore() {
         if (gamesPlayed == 0) return 0;
-        return qualitativeScore / gamesPlayed;
+        return (double)qualitativeScore / gamesPlayed;
+    }
+
+    public void sortScoringTypesAuto() {
+        scoringTypesAuto.sort((a, b) -> a.ordinal() - b.ordinal());
     }
 
     public void sortScoringTypes() {
