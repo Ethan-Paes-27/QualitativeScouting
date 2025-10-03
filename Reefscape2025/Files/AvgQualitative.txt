@@ -1,6 +1,12 @@
-1. Team 1234-> AvgQS: 2.54, Auto Types: [L1Auto, BargeAuto], Types: [L3, L4, Barge, Deep]
+1. Team 103-> AvgQS: 3.0, Auto Types: [L3], Types: [Deep]
 
-2. Team 3101-> AvgQS: 2.5, Auto Types: [L1Auto], Types: [L2, AlgaeRemove, BadDef]
+2. Team 202-> AvgQS: 3.0, Auto Types: [L2], Types: [L2]
 
-3. Team 5678-> AvgQS: 1.33, Auto Types: [L1Auto], Types: [L2, AlgaeRemove, BadDef]
+3. Team 101-> AvgQS: 2.0, Auto Types: [L1], Types: [Barge]
+
+4. Team 203-> AvgQS: 2.0, Auto Types: [L3], Types: [L4]
+
+5. Team 102-> AvgQS: 1.0, Auto Types: [L2], Types: [AlgaeRemove]
+
+6. Team 201-> AvgQS: 1.0, Auto Types: [L1], Types: [Barge]
 

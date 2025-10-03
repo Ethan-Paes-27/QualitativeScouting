@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class ReefscapeManager {
-    public ArrayList<ReefscapeTeam> teams;
+    private ArrayList<ReefscapeTeam> teams;
 
     public ReefscapeManager() {
         teams = new ArrayList<ReefscapeTeam>();
@@ -93,7 +93,7 @@ public class ReefscapeManager {
         }
     }
 
-    private void loadMainFile() {
+    public void loadMainFile() {
         try (Scanner sc = new Scanner(new File("Reefscape2025\\Files\\MainFile.txt"))) {
 
             while (sc.hasNextLine()) {
@@ -177,7 +177,7 @@ public class ReefscapeManager {
         manager.loadMainFile();
 
         // ArrayList<ReefscapeScoringTypesAuto> typesAuto = new ArrayList<>();
-        // typesAuto.add(ReefscapeScoringTypesAuto.L1Auto);
+        // typesAuto.add(ReefscapeScoringTypesAuto.L1);
 
         // ArrayList<ReefscapeScoringTypes> types = new ArrayList<>();
         // types.add(ReefscapeScoringTypes.Barge);
@@ -204,18 +204,9 @@ public class ReefscapeManager {
         newTypes.add(ReefscapeScoringTypes.L4);
         team4.addTypes(newTypes);
         ArrayList<ReefscapeScoringTypesAuto> newTypesAuto = new ArrayList<>();
-        newTypesAuto.add(ReefscapeScoringTypesAuto.BargeAuto);
+        newTypesAuto.add(ReefscapeScoringTypesAuto.Barge);
         team4.addTypesAuto(newTypesAuto);
-        
-        team4.addTypesAuto(newTypesAuto);
-        
-        team4.addTypesAuto(newTypesAuto);
-        
-        team4.addTypesAuto(newTypesAuto);
-        
-        team4.addTypesAuto(newTypesAuto);
-        
-        team4.addTypesAuto(newTypesAuto);
+
         manager.updateTeam(team4);
 
         manager.sortTeamsByTeamNumber();

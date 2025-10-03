@@ -12,5 +12,5 @@ public enum ReefscapeScoringTypes {
     Deep,
     BadDef,
     GoodDef,
-    BrokenOnce
+    Broken
 }
