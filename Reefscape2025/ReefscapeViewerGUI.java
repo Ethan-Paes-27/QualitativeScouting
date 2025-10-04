@@ -47,13 +47,18 @@ public class ReefscapeViewerGUI extends JFrame {
         styleButton(showAllTeamsButton, new Color(0, 153, 0));
         showAllTeamsButton.addActionListener(e -> showAllTeams());
 
+        JButton sortByAverageQualitativeScoresButton = new JButton("Sort By Avg. Qualitative Score");
+        styleButton(sortByAverageQualitativeScoresButton, new Color(0, 153, 0));
+        sortByAverageQualitativeScoresButton.addActionListener(e -> sortByQualitativeScore());
+
         JButton filterTypeButton = new JButton("Filter by Type");
         styleButton(filterTypeButton, new Color(200, 150, 50));
         filterTypeButton.addActionListener(e -> showTeamsByType());
 
         buttonPanel.add(showAllTeamsButton);
+        buttonPanel.add(sortByAverageQualitativeScoresButton);
         buttonPanel.add(filterTypeButton);
-    
+
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -134,6 +139,25 @@ public class ReefscapeViewerGUI extends JFrame {
         displayArea.setText(sb.toString());
     }
 
+    private void sortByQualitativeScore() {
+        ArrayList<ReefscapeTeam> qSortedTeams = new ArrayList<>(teams);
+        qSortedTeams.sort((t1, t2) -> Double.compare(t2.getAverageQualitativeScore(), t1.getAverageQualitativeScore()));
+
+        StringBuilder sb = new StringBuilder("=== AVERAGE QUALITATIVE SCORES ===\n\n");
+
+        int counter = 1;
+        
+        for (ReefscapeTeam team : qSortedTeams) {
+            sb.append(counter++ + ". Team ").append(team.getTeamNumber()).append(" -> Average Qualitative Score: ")
+              .append(String.format("%.2f", team.getAverageQualitativeScore()))
+              .append(", Auto Types: ").append(team.getTypesAuto())
+              .append(", Teleop Types: ").append(team.getTypes())
+              .append("\n\n");
+        }
+
+        displayArea.setText(sb.toString());
+    }
+
     private void showTeamsByType() {
         readMainFile();
 
@@ -181,7 +205,7 @@ public class ReefscapeViewerGUI extends JFrame {
         }
 
         if (sb.toString().equals("=== TEAMS WITH TYPE: " + inputType + " ===\n\n")) {
-            sb.append("No teams found with the specified type.");
+            sb.append("No teams found with type: L1.");
         }
 
         displayArea.setText(sb.toString());
