@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ReefscapeTeam {
     private int teamNumber;
-    private String teamName;
 
     private ArrayList<ReefscapeScoringTypesAuto> scoringTypesAuto;
     private ArrayList<ReefscapeScoringTypes> scoringTypes;

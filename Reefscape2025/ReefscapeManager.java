@@ -61,40 +61,8 @@ public class ReefscapeManager {
         teams.sort((b, a) -> b.getTeamNumber() - a.getTeamNumber());
     }
 
-    public void sortTeamsByAverageQualitativeScore() {
-        ArrayList<ReefscapeTeam> newTeams = new ArrayList<>();
-
-        for (ReefscapeTeam team : teams) {
-            newTeams.add(team);
-        }
-
-        newTeams.sort((a, b) -> Double.compare(b.getAverageQualitativeScore(), a.getAverageQualitativeScore()));
-
-        try {
-            new PrintWriter("Reefscape2025\\Files\\AvgQualitative.txt").close(); // Clear the file
-
-            FileWriter writer = null;
-
-            writer = new FileWriter("Reefscape2025\\Files\\AvgQualitative.txt");
-
-            for (int i = 0; i < newTeams.size(); i++) {
-                ReefscapeTeam team = newTeams.get(i);
-                team.sortScoringTypes();
-
-                double avgQS = Math.floor(team.getAverageQualitativeScore() * 100) / 100;
-
-                writer.write(i + 1 + ". Team " + team.getTeamNumber() + "-> AvgQS: " +
-                        avgQS + ", Auto Types: " + team.getTypesAuto() + ", Types: "
-                        + team.getTypes() + "\n\n");
-            }
-
-            writer.close();
-        } catch (Exception e) {
-        }
-    }
-
     public void loadMainFile() {
-        try (Scanner sc = new Scanner(new File("Reefscape2025\\Files\\MainFile.txt"))) {
+        try (Scanner sc = new Scanner(new File("Reefscape2025\\MainFile.txt"))) {
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -147,12 +115,12 @@ public class ReefscapeManager {
     }
 
     public void updateMainFile() throws FileNotFoundException {
-        new PrintWriter("Reefscape2025\\Files\\MainFile.txt").close(); // Clear the file
+        new PrintWriter("Reefscape2025\\MainFile.txt").close(); // Clear the file
 
         FileWriter writer = null;
 
         try {
-            writer = new FileWriter("Reefscape2025\\Files\\MainFile.txt");
+            writer = new FileWriter("Reefscape2025\\MainFile.txt");
 
             for (int i = 0; i < teams.size(); i++) {
                 ReefscapeTeam team = teams.get(i);
@@ -204,14 +172,12 @@ public class ReefscapeManager {
         newTypes.add(ReefscapeScoringTypes.L4);
         team4.addTypes(newTypes);
         ArrayList<ReefscapeScoringTypesAuto> newTypesAuto = new ArrayList<>();
-        newTypesAuto.add(ReefscapeScoringTypesAuto.Barge);
+        newTypesAuto.add(ReefscapeScoringTypesAuto.BargeA);
         team4.addTypesAuto(newTypesAuto);
 
         manager.updateTeam(team4);
 
         manager.sortTeamsByTeamNumber();
-
-        manager.sortTeamsByAverageQualitativeScore();
 
         manager.updateMainFile();
     }

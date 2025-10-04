@@ -6,10 +6,10 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class ReefscapeGUI extends JFrame {
+public class ReefscapeManagerGUI extends JFrame {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ReefscapeGUI().setVisible(true));
+        SwingUtilities.invokeLater(() -> new ReefscapeManagerGUI().setVisible(true));
     }
 
     private ReefscapeManager manager;
@@ -19,16 +19,20 @@ public class ReefscapeGUI extends JFrame {
     private int redTeams;
     private int blueTeams;
 
+    // Verification flag
+    private boolean verified = false;
+
     // GUI components
     private JTextField teamNumberField;
     private JTextField qualitativePointsField;
     private JTextField autoScoringField;
     private JTextField teleopScoringField;
     private JButton addButton;
+    private JButton verifyButton;
     private JTextArea outputArea;
     private JToggleButton teamColorToggle; // Red/Blue
 
-    public ReefscapeGUI() {
+    public ReefscapeManagerGUI() {
         manager = new ReefscapeManager();
         manager.loadMainFile();
 
@@ -45,7 +49,6 @@ public class ReefscapeGUI extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 try {
                     manager.sortTeamsByTeamNumber();
-                    manager.sortTeamsByAverageQualitativeScore();
                     manager.updateMainFile();
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
@@ -89,13 +92,21 @@ public class ReefscapeGUI extends JFrame {
         JButton closeButton = new JButton("X");
         styleButton(closeButton, Color.RED);
         closeButton.addActionListener(e -> {
+            if (!verified) {
+                JOptionPane.showMessageDialog(this,
+                        "⚠️ Please verify data before closing with save!",
+                        "Verification Required",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             try {
                 manager.sortTeamsByTeamNumber();
-                manager.sortTeamsByAverageQualitativeScore();
                 manager.updateMainFile();
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
+
             dispose(); // close the frame
             System.exit(0); // terminate the app
         });
@@ -114,6 +125,7 @@ public class ReefscapeGUI extends JFrame {
             } else {
                 teamColorToggle.setText("RED TEAM");
             }
+            verified = false; // color switch also invalidates verification
         });
         headerPanel.add(teamColorToggle, BorderLayout.CENTER);
 
@@ -133,7 +145,7 @@ public class ReefscapeGUI extends JFrame {
         });
 
         // === Input Panel ===
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
         inputPanel.setBackground(new Color(30, 30, 30));
         Color labelColor = Color.WHITE;
 
@@ -173,6 +185,17 @@ public class ReefscapeGUI extends JFrame {
         styleButton(addButton, new Color(70, 130, 180));
         inputPanel.add(addButton);
 
+        verifyButton = new JButton("Verify Data");
+        styleButton(verifyButton, new Color(0, 153, 0)); // green
+        verifyButton.addActionListener(e -> {
+            verified = true;
+            JOptionPane.showMessageDialog(this,
+                    "✅ Data verified successfully! You may now close and save.",
+                    "Verified",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+        inputPanel.add(verifyButton);
+
         // Combine header + input panel
         JPanel northPanel = new JPanel(new BorderLayout());
         northPanel.add(headerPanel, BorderLayout.NORTH);
@@ -180,7 +203,7 @@ public class ReefscapeGUI extends JFrame {
         add(northPanel, BorderLayout.NORTH);
 
         // EXIT WITHOUT SAVING
-        JButton exitWithoutSaveButton = new JButton("EXIT WITHOUT SAVING (ONLY PRESS IF MISTAKE)");
+        JButton exitWithoutSaveButton = new JButton("EXIT WITHOUT SAVING (ONLY PRESS IF REQUIRED)");
         styleButton(exitWithoutSaveButton, Color.RED);
         exitWithoutSaveButton.setFont(exitWithoutSaveButton.getFont().deriveFont(Font.BOLD, 16f));
         exitWithoutSaveButton.addActionListener(e -> {
@@ -247,18 +270,6 @@ public class ReefscapeGUI extends JFrame {
                 return;
             }
 
-            if (autoTypes.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Empty Auto Types!", "No Auto Types",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if (teleopTypes.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Empty Teleop Types!", "No Teleop Types",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
             if (qualitativePoints <= 0) {
                 JOptionPane.showMessageDialog(this, "Qualitative points cannot be 0 or less!", "Invalid QS",
                         JOptionPane.WARNING_MESSAGE);
@@ -288,6 +299,9 @@ public class ReefscapeGUI extends JFrame {
 
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
 
+            // Reset verification whenever a new valid team is added
+            verified = false;
+
             teamNumberField.setText("");
             qualitativePointsField.setText("");
             autoScoringField.setText("");
@@ -311,5 +325,6 @@ public class ReefscapeGUI extends JFrame {
             manager.updateTeam(oldTeam);
         }
         teamsAdded++;
+        addedTeamNumbers.add(teamNumber);
     }
 }
