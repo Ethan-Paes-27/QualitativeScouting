@@ -87,8 +87,10 @@ public class ReefscapeManager {
 
                 Set<ReefscapeScoringTypes> typesSet = new HashSet<>();
 
-                for (String typeString : typesString.split(", ")) {
-                    typesSet.add(ReefscapeScoringTypes.valueOf(typeString));
+                if (typesString.length() != 0) {
+                    for (String typeString : typesString.split(", ")) {
+                        typesSet.add(ReefscapeScoringTypes.valueOf(typeString));
+                    }
                 }
 
                 ArrayList<ReefscapeScoringTypes> types = new ArrayList<>(typesSet);
@@ -97,8 +99,10 @@ public class ReefscapeManager {
 
                 Set<ReefscapeScoringTypesAuto> typesAutoSet = new HashSet<>();
 
-                for (String typeString : line.split(", ")) {
-                    typesAutoSet.add(ReefscapeScoringTypesAuto.valueOf(typeString));
+                if (line.length() != 0) {
+                    for (String typeString : line.split(", ")) {
+                        typesAutoSet.add(ReefscapeScoringTypesAuto.valueOf(typeString));
+                    }
                 }
 
                 ArrayList<ReefscapeScoringTypesAuto> typesAuto = new ArrayList<>(typesAutoSet);

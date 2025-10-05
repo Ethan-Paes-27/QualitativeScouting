@@ -59,7 +59,7 @@ public class ReefscapeManagerGUI extends JFrame {
 
     private void setupGUI() {
         setTitle("Reefscape Scouting GUI");
-        setSize(800, 400);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 

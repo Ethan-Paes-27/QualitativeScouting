@@ -78,6 +78,7 @@ public class ReefscapeViewerGUI extends JFrame {
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
+                System.out.println(line);
 
                 String teamNumberString = line.substring(0, line.indexOf(":"));
                 int teamNumber = Integer.parseInt(teamNumberString);
@@ -99,8 +100,10 @@ public class ReefscapeViewerGUI extends JFrame {
 
                 Set<ReefscapeScoringTypes> typesSet = new HashSet<>();
 
-                for (String typeString : typesString.split(", ")) {
-                    typesSet.add(ReefscapeScoringTypes.valueOf(typeString));
+                if (typesString.length() != 0) {
+                    for (String typeString : typesString.split(", ")) {
+                        typesSet.add(ReefscapeScoringTypes.valueOf(typeString));
+                    }
                 }
 
                 ArrayList<ReefscapeScoringTypes> types = new ArrayList<>(typesSet);
@@ -109,8 +112,10 @@ public class ReefscapeViewerGUI extends JFrame {
 
                 Set<ReefscapeScoringTypesAuto> typesAutoSet = new HashSet<>();
 
-                for (String typeString : line.split(", ")) {
-                    typesAutoSet.add(ReefscapeScoringTypesAuto.valueOf(typeString));
+                if (line.length() != 0) {
+                    for (String typeString : line.split(", ")) {
+                        typesAutoSet.add(ReefscapeScoringTypesAuto.valueOf(typeString));
+                    }
                 }
 
                 ArrayList<ReefscapeScoringTypesAuto> typesAuto = new ArrayList<>(typesAutoSet);
@@ -131,10 +136,10 @@ public class ReefscapeViewerGUI extends JFrame {
 
         for (ReefscapeTeam team : teams) {
             sb.append("Team ").append(team.getTeamNumber()).append(" -> ")
-              .append("  Qualitative Score: ").append(team.getQualitativeScore())
-              .append(",  Games Played: ").append(team.getGamesPlayed())
-              .append(",  Types (Auto): ").append(team.getTypesAuto())
-              .append(",  Types (Teleop): ").append(team.getTypes()).append("\n\n");
+                    .append("  Qualitative Score: ").append(team.getQualitativeScore())
+                    .append(",  Games Played: ").append(team.getGamesPlayed())
+                    .append(",  Types (Auto): ").append(team.getTypesAuto())
+                    .append(",  Types (Teleop): ").append(team.getTypes()).append("\n\n");
         }
         displayArea.setText(sb.toString());
     }
@@ -146,13 +151,13 @@ public class ReefscapeViewerGUI extends JFrame {
         StringBuilder sb = new StringBuilder("=== AVERAGE QUALITATIVE SCORES ===\n\n");
 
         int counter = 1;
-        
+
         for (ReefscapeTeam team : qSortedTeams) {
             sb.append(counter++ + ". Team ").append(team.getTeamNumber()).append(" -> Average Qualitative Score: ")
-              .append(String.format("%.2f", team.getAverageQualitativeScore()))
-              .append(", Auto Types: ").append(team.getTypesAuto())
-              .append(", Teleop Types: ").append(team.getTypes())
-              .append("\n\n");
+                    .append(String.format("%.2f", team.getAverageQualitativeScore()))
+                    .append(", Auto Types: ").append(team.getTypesAuto())
+                    .append(", Teleop Types: ").append(team.getTypes())
+                    .append("\n\n");
         }
 
         displayArea.setText(sb.toString());
@@ -164,7 +169,8 @@ public class ReefscapeViewerGUI extends JFrame {
         String inputType = JOptionPane.showInputDialog(this,
                 "Enter what type of info you want to display:");
 
-        if (inputType == null || inputType.trim().isEmpty()) return;
+        if (inputType == null || inputType.trim().isEmpty())
+            return;
         inputType = inputType.trim();
 
         StringBuilder sb = new StringBuilder("=== TEAMS WITH TYPE: " + inputType + " ===\n\n");
@@ -205,7 +211,7 @@ public class ReefscapeViewerGUI extends JFrame {
         }
 
         if (sb.toString().equals("=== TEAMS WITH TYPE: " + inputType + " ===\n\n")) {
-            sb.append("No teams found with type: L1.");
+            sb.append("No teams found with type: " + inputType + ".");
         }
 
         displayArea.setText(sb.toString());
